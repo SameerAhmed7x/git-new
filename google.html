@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Autocomplete - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <style>
+    #tags{
+      background-color: rgb(229, 243, 239);
+      border-radius: 4px;
+      border: none;
+    }
+  </style>
+  <script>
+  $( function() {
+    var availableTags = [
+      "iphone 13",
+      "ahsan",
+      "khuram",
+      "basit",
+      "saif",
+      "usman",
+      "usama",
+      "salan",
+      "sherey",
+      "kashan",
+      "kashife",
+      "umer",
+      "junaid",
+      "iqrar",
+      "akber",
+      "sher",
+      "atta",
+      "waqar",
+      "walid",
+      "shamoo",
+      "Shami",
+      "alavi"
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  } );
+  </script>
+</head>
+<body>
+ 
+<div class="ui-widget">
+  <label for="tags">Tags: </label>
+  <input type="text" name="search" id="tags" placeholder="search..." autofocus>
+</div>
+ 
+ 
+</body>
+</html>
