@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+   <style>
+    /* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgb(130, 106, 251);
+}
+.container {
+  position: relative;
+  max-width: 700px;
+  width: 100%;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+.container header {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 500;
+  text-align: center;
+}
+.container .form {
+  margin-top: 30px;
+}
+.form .input-box {
+  width: 100%;
+  margin-top: 20px;
+}
+.input-box label {
+  color: #333;
+}
+.form :where(.input-box input, .select-box) {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  outline: none;
+  font-size: 1rem;
+  color: #707070;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0 15px;
+}
+.input-box input:focus {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.form .column {
+  display: flex;
+  column-gap: 15px;
+}
+.form .gender-box {
+  margin-top: 20px;
+}
+.gender-box h3 {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.form :where(.gender-option, .gender) {
+  display: flex;
+  align-items: center;
+  column-gap: 50px;
+  flex-wrap: wrap;
+}
+.form .gender {
+  column-gap: 5px;
+}
+.gender input {
+  accent-color: rgb(130, 106, 251);
+}
+.form :where(.gender input, .gender label) {
+  cursor: pointer;
+}
+.gender label {
+  color: #707070;
+}
+.address :where(input, .select-box) {
+  margin-top: 15px;
+}
+.select-box select {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  color: #707070;
+  font-size: 1rem;
+}
+.button {
+  height: 55px;
+  width: 100%;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgb(130, 106, 251);
+}
+.button:hover {
+  background: rgb(88, 56, 250);
+}
+ Responsive
+@media screen and (max-width: 500px) {
+  .form .column {
+    flex-wrap: wrap;
+  }
+  .form :where(.gender-option, .gender) {
+    row-gap: 15px;
+  }
+} */
+.error {color: #FF0001;} 
+/* nav{
+    background-color: rgb(130, 106, 251);
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+} */
+H1{
+  font-size: 30px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color:#D7BDE2 ;
+}
+   </style>
+  </head>
+  <body>
+<!-- <nav>
+    <ul>
+        <li><a href="index.php">Home</a></li>
+        <li><a href="about.php">About</a></li>
+        <li><a href="contact.php">Contact</a></li>
+        <li><a href="login.php">Login</a></li>
+        <li><a href="register.php">Register</a></li>
+    </ul>
+</nav> -->
+<?php
+$nameErr = $emailErr = $phoneErr = $genderErr = $addressErr = $passwordErr =" ";
+$name = $email = $phone = $gender = $address = " ";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (empty($_POST["name"])) {
+      $nameErr = "Name is required";
+    } else {
+      $name = test_input($_POST["name"]);
+      // check if name only contains letters and whitespace
+      if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+        $nameErr = "Only letters and white space allowed"; 
+      }
+    }
+
+    if (empty($_POST["email"])) {
+      $emailErr = "Email is required";
+    } else {
+      $email = test_input($_POST["email"]);
+      // check if e-mail address is well-formed
+      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $emailErr = "Invalid email format"; 
+      }
+    }
+
+    if (empty($_POST["phone"])) {
+      $phoneErr = "Phone number is required";
+    } else {
+      $phone = test_input($_POST["phone"]);
+      // check if name only contains letters and whitespace
+      if (!preg_match("/^[0-9]*$/",$phone)) {
+        $phoneErr = "Only numbers allowed"; 
+      }
+    }
+
+    if (empty($_POST["address"])) {
+      $addressErr = "Address is required";
+    } else {
+      $address = test_input($_POST["address"]);
+      // check if name only contains letters and whitespace
+      if (!preg_match("/^[a-zA-Z ]*$/",$address)) {
+        $addressErr = "Only letters and white space allowed"; 
+      }
+    }
+
+    if (empty($_POST["password"])) {
+      $passwordErr = "Password is required";
+    } else {
+      $password = test_input($_POST["password"]);
+      // check if name only contains letters and whitespace
+      if (!preg_match("/^[a-zA-Z ]*$/",$password)) {
+        $passwordErr = "Only letters and white space allowed"; 
+      }
+    }
+
+    if (empty($_POST["gender"])) {
+      $genderErr = "Gender is required";
+    } else {
+      $gender = test_input($_POST["gender"]);
+    }
+
+
+}
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+
+?>
+
+ <section class="container">
+ <h1>SAMEER AHMED</h1>
+      <header>Registration Form</header>
+      <form action="<?php echo htmlspecialchars ($_SERVER['PHP_SELF'])?>"  method="POST" class="form">
+        <div class="input-box">
+          <label>Full Name</label>
+          <input type="text" name="name" placeholder="Enter full name"  />
+          <span class="error">* <?php echo $nameErr;?></span>
+        </div>
+
+        <div class="input-box">
+          <label>Email Address</label>
+          <input type="text" name="email" placeholder="Enter email address"  />
+            <span class="error">* <?php echo $emailErr;?></span>
+      
+        </div>
+
+        <div class="column">
+          <div class="input-box">
+            <label>Phone Number</label>
+            <input type="text" name="phone" placeholder="Enter phone number"  />
+            <span class="error">* <?php echo $phoneErr;?></span>
+ 
+        
+          </div>
+          
+        </div>
+        <div class="gender-box">
+          <h3>Gender</h3>
+          <div class="gender-option">
+            <div class="gender">
+              <input type="radio" id="check-male" name="gender"   value="Male"/>
+              <label for="check-male">male</label>
+              <span class="error">* <?php echo $genderErr;?></span>
+
+            </div>
+            <div class="gender">
+              <input type="radio" id="check-female" name="gender" value="Female"/>
+              <label for="check-female">Female</label>
+              <span class="error">* <?php echo $genderErr;?></span>
+
+            </div>
+            <div class="gender">
+              <input type="radio" id="check-other" name="gender" value="others"/>
+              <label for="check-other">prefer not to say</label>
+              <span class="error">* <?php echo $genderErr;?></span>
+
+            </div>
+          </div>
+        </div>
+        <div class="input-box address">
+          <label>Address</label>
+          <input type="text" name="address" placeholder="Enter street address"  />
+            <span class="error">* <?php echo $addressErr;?></span>
+ 
+         
+</div>
+         
+           
+          </div>
+         
+        </div>
+        <input class="button" type="submit" name="save" value="Submit"> 
+      </form>
+     <?php
+     if(isset($_POST['save'])){
+        if($nameErr == " " && $emailErr == " " && $phoneErr == " " && $genderErr == " " && $addressErr == " "){
+echo "<h3 color = #ff0001> <b> Your form has been submitted successfully </b> </h3>";
+echo "<h2> your Input:</h2>";
+     echo "<b> Name: </b> ". $name;
+     echo "<br>";
+     echo "<b> Email: </b> ". $email;
+     echo "<br>";
+     echo "<b> Phone: </b> ". $phone;
+     echo "<br>";
+     echo "<b> Gender: </b> ". $gender;
+     echo "<br>";
+     echo "<b> Address: </b> ". $address;
+    }
+     else{
+        echo "<h3 color = #ff0001> <b> Your form has not been submitted successfully </b> </h3>";
+     }
+
+     }
+
+     ?>
+      </body>
+      <?php
+     
+      ?>
+      </html>
